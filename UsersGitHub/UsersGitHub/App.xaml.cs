@@ -13,7 +13,7 @@ namespace UsersGitHub
 		{
 			InitializeComponent();
 
-			MainPage = new UsersGitHub.MainPage();
+		    MainPage = new View.UserReposPage();
 		}
 
 		protected override void OnStart ()
