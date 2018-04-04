@@ -13,31 +13,28 @@ using Xamarin.Forms.Xaml;
 namespace UsersGitHub.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UserReposPageMaster : ContentPage
+    public partial class MasterDetailPageMaster
     {
         public ListView ListView;
 
-        public UserReposPageMaster()
+        public MasterDetailPageMaster()
         {
             InitializeComponent();
 
-            BindingContext = new UserReposPageMasterViewModel();
+            BindingContext = new MasterDetailPageMasterViewModel();
             ListView = MenuItemsListView;
         }
 
-        class UserReposPageMasterViewModel : INotifyPropertyChanged
+        class MasterDetailPageMasterViewModel : INotifyPropertyChanged
         {
-            public ObservableCollection<UserReposPageMenuItem> MenuItems { get; set; }
+            public ObservableCollection<MasterDetailPageMenuItem> MenuItems { get; set; }
             
-            public UserReposPageMasterViewModel()
+            public MasterDetailPageMasterViewModel()
             {
-                MenuItems = new ObservableCollection<UserReposPageMenuItem>(new[]
+                MenuItems = new ObservableCollection<MasterDetailPageMenuItem>(new[]
                 {
-                    new UserReposPageMenuItem { Id = 0, Title = "Page 1" },
-                    new UserReposPageMenuItem { Id = 1, Title = "Page 2" },
-                    new UserReposPageMenuItem { Id = 2, Title = "Page 3" },
-                    new UserReposPageMenuItem { Id = 3, Title = "Page 4" },
-                    new UserReposPageMenuItem { Id = 4, Title = "Page 5" },
+                    new MasterDetailPageMenuItem { Id = 0, Title = "Users" },
+                    new MasterDetailPageMenuItem { Id = 1, Title = "Repos" },
                 });
             }
             

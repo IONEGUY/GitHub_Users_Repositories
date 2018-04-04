@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace UsersGitHub.View
 {
 
-    public class UserReposPageMenuItem
+    public class MasterDetailPageMenuItem
     {
-        public UserReposPageMenuItem()
+        public MasterDetailPageMenuItem()
         {
-            TargetType = typeof(UserReposPageDetail);
+            TargetType = typeof(MasterDetailPageDetail);
         }
         public int Id { get; set; }
         public string Title { get; set; }

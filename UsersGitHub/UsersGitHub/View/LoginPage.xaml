@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Entry WidthRequest="250" HorizontalOptions="Center" BackgroundColor="LightGray"  x:Name="LoginEntry"  Margin="0,100,0,0" Placeholder="Login"></Entry>
-            <Button WidthRequest="100" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="LightGray" x:Name="LoginButton" Margin="0,200,0,0" Text="Log in"></Button>
+            <Button Command="{Binding GoTouserReposPageCommand}" WidthRequest="100" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="LightGray" x:Name="LoginButton" Margin="0,200,0,0" Text="Log in"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

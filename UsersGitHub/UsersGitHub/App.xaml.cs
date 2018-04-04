@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using UsersGitHub.Model;
+using UsersGitHub.View;
 using Xamarin.Forms;
 
 namespace UsersGitHub
@@ -13,7 +14,7 @@ namespace UsersGitHub
 		{
 			InitializeComponent();
 
-		    MainPage = new View.UserReposPage();
+		    MainPage = new NavigationPage(new LoginPage());
 		}
 
 		protected override void OnStart ()

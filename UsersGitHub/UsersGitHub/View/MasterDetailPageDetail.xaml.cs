@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace UsersGitHub.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UserReposPageDetail : ContentPage
+    public partial class MasterDetailPageDetail
     {
-        public UserReposPageDetail()
+        public MasterDetailPageDetail()
         {
             InitializeComponent();
         }
