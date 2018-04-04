@@ -26,14 +26,7 @@ namespace UsersGitHub.ViewModel
 
         private void GoToUserReposPage()
         {
-            //Navigation.PushAsync(new NavigationPage(new View.MasterDetailPage()));
-            //var page = Navigation.NavigationStack.FirstOrDefault(contentPage => typeof(LoginPage) == contentPage.GetType());
-            //if (page != null)
-            //{
-            //    App.Current.MainPage.Navigation.RemovePage(page);
-            //}
-
-            App.Current.MainPage = new View.MasterDetailPage();
+            Application.Current.MainPage = new View.MasterDetailPage();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

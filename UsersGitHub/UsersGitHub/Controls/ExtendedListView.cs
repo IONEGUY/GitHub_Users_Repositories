@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using UsersGitHub.View;
 using Xamarin.Forms;
 
 namespace UsersGitHub.Controls
@@ -25,8 +26,8 @@ namespace UsersGitHub.Controls
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
         {
-
-            ItemSelectedCommand?.Execute(selectedItemChangedEventArgs.SelectedItem);
+            var pageName = ((MasterDetailPageMenuItem)selectedItemChangedEventArgs.SelectedItem).Title;
+            ItemSelectedCommand?.Execute(pageName);
         }
     }
 }

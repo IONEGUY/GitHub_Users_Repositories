@@ -16,6 +16,7 @@ namespace UsersGitHub.View
 		{
 			InitializeComponent ();
             BindingContext = new LoginPageViewModel(this){ Navigation = Navigation};
+
 		}
 	}
 }
