@@ -15,18 +15,18 @@ namespace UsersGitHub.ViewModel
     public class LoginPageViewModel : INotifyPropertyChanged
     {
         public INavigation Navigation { get; set; }
-        public ICommand GoTouserReposPageCommand { get; set; }
+        public ICommand GoToUserReposPageCommand { get; set; }
         private Page LoginPage { get; }
 
         public LoginPageViewModel(Page page)
         {
-            GoTouserReposPageCommand = new Command(GoToUserReposPage);
+            GoToUserReposPageCommand = new Command(GoToUserReposPage);
             LoginPage = page;
         }
 
         private void GoToUserReposPage()
         {
-            Application.Current.MainPage = new View.MasterDetailPage();
+            Application.Current.MainPage = new UsersReposPage();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -7,30 +7,29 @@ using System.Text;
 using System.Windows.Input;
 using UsersGitHub.View;
 using Xamarin.Forms;
-using MasterDetailPage = UsersGitHub.View.MasterDetailPage;
 
 namespace UsersGitHub.ViewModel
 {
-    public class MasteDetailViewModel : INotifyPropertyChanged
+    public class UsersReposViewModel : INotifyPropertyChanged
     {
         public ICommand ShowDetailCommand { get; }
 
-        public ObservableCollection<MasterDetailPageMenuItem> MenuItems { get; set; }
+        public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
 
-        public MasteDetailViewModel()
+        public UsersReposViewModel()
         {           
             ShowDetailCommand = new Command(parameter => ShowDetail(parameter.ToString()));
 
-            MenuItems = new ObservableCollection<MasterDetailPageMenuItem>(new[]
+            MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
-                new MasterDetailPageMenuItem { Id = 0, Title = "Users" },
-                new MasterDetailPageMenuItem { Id = 1, Title = "Repos" },
+                new UsersReposPageMenuItem { Id = 0, Title = "Users" },
+                new UsersReposPageMenuItem { Id = 1, Title = "Repos" },
             });
         }
 
         private void ShowDetail(string detailPageName)
         {
-            if (!(Application.Current.MainPage is MasterDetailPage page)) return;     
+            if (!(Application.Current.MainPage is Xamarin.Forms.MasterDetailPage page)) return;     
             page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
         }
 

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace UsersGitHub.View
 {
 
-    public class MasterDetailPageMenuItem
+    public class UsersReposPageMenuItem
     {
-        public MasterDetailPageMenuItem()
+        public UsersReposPageMenuItem()
         {
-            TargetType = typeof(MasterDetailPageDetail);
+            TargetType = typeof(Users);
         }
         public int Id { get; set; }
         public string Title { get; set; }
