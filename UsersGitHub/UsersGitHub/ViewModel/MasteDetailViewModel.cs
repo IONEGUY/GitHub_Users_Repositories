@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
-using UsersGitHub.Classes;
 using UsersGitHub.View;
 using Xamarin.Forms;
+using MasterDetailPage = UsersGitHub.View.MasterDetailPage;
 
 namespace UsersGitHub.ViewModel
 {
@@ -27,19 +28,17 @@ namespace UsersGitHub.ViewModel
             });
         }
 
-        private void ShowDetail(string pageName)
+        private void ShowDetail(string detailPageName)
         {
-            var page = Application.Current.MainPage as View.MasterDetailPage;
-            if (page == null)
-            {
-                return;
-            }
+            if (!(Application.Current.MainPage is MasterDetailPage page)) return;     
+            page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
+        }
 
-            switch (pageName)
-            {
-                case "Users": page.Detail = new NavigationPage(new Users()); break;
-                case "Repos": page.Detail = new NavigationPage(new Repos()); break;
-            }
+        private Page GetDetailPageInstaceByName(string detailPageName)
+        {
+            var detailPageType = Type.GetType("UsersGitHub.View." + detailPageName, false, true);
+            var detailPageConstructor = detailPageType.GetConstructor(new Type[] { });
+            return detailPageConstructor.Invoke(new object[] { }) as Page;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
