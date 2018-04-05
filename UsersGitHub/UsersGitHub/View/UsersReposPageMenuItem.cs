@@ -6,16 +6,9 @@ using System.Threading.Tasks;
 
 namespace UsersGitHub.View
 {
-
     public class UsersReposPageMenuItem
     {
-        public UsersReposPageMenuItem()
-        {
-            TargetType = typeof(Users);
-        }
         public int Id { get; set; }
         public string Title { get; set; }
-
-        public Type TargetType { get; set; }
     }
 }

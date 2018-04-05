@@ -41,7 +41,10 @@ namespace UsersGitHub.ViewModel
 
         private void ShowDetail(string detailPageName)
         {
-            if (!(Application.Current.MainPage is Xamarin.Forms.MasterDetailPage page)) return;     
+            if (!(Application.Current.MainPage is Xamarin.Forms.MasterDetailPage page))
+            {
+                return;
+            }     
             page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
             IsPresented = false;
         }

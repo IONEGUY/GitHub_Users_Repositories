@@ -12,28 +12,21 @@ using Xamarin.Forms;
 
 namespace UsersGitHub.ViewModel
 {
-    public class LoginPageViewModel : INotifyPropertyChanged
+    public class LoginPageViewModel : BindableObject
     {
+        private readonly Page _page;
         public INavigation Navigation { get; set; }
         public ICommand GoToUserReposPageCommand { get; set; }
-        private Page LoginPage { get; }
 
         public LoginPageViewModel(Page page)
         {
+            _page = page;
             GoToUserReposPageCommand = new Command(GoToUserReposPage);
-            LoginPage = page;
         }
 
         private void GoToUserReposPage()
         {
             Application.Current.MainPage = new UsersReposPage();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }
