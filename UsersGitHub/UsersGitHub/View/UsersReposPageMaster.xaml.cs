@@ -19,7 +19,7 @@ namespace UsersGitHub.View
         public UsersReposPageMaster()
         {
             InitializeComponent();
-            BindingContext = new UsersReposViewModel();
+            //BindingContext = new UsersReposViewModel();
         }
     }
 }

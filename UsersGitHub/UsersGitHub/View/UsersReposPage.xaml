@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UsersGitHub.View.UsersReposPage"
              xmlns:pages="clr-namespace:UsersGitHub.View"
-                  >
+             IsPresented="{Binding IsPresented, Mode=TwoWay}">
   <MasterDetailPage.Master>
     <pages:UsersReposPageMaster />
   </MasterDetailPage.Master>
