@@ -10,24 +10,13 @@
                                    ItemsSource="{Binding MenuItems}"
                                    ItemSelectedCommand="{Binding ShowDetailCommand}">
             <ListView.Header>
-                <Grid BackgroundColor="#03A9F4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
-                    <Label
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        Text="UsersRepos"
-                        Style="{DynamicResource SubtitleStyle}"/>
-                </Grid>
+                <Frame  HeightRequest="100"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#03A9F4">
+                    <Label VerticalOptions="EndAndExpand" 
+                           Text="UsersRepos"
+                           Style="{DynamicResource SubtitleStyle}"/>
+                </Frame>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
