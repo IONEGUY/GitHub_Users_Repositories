@@ -25,8 +25,8 @@ namespace UsersGitHub
 		protected override async void OnStart ()
 		{
 		    BlobCache.ApplicationName = "UsersGitHub";
+		    await BlobCache.UserAccount.InvalidateAll();
 		    var collection = await BlobCache.UserAccount.GetAllObjects<User>();
-		    var observable = BlobCache.UserAccount.GetAllObjects<User>();
             if (collection.Any())
 		    {
 		        Current.MainPage = new UsersReposPage();

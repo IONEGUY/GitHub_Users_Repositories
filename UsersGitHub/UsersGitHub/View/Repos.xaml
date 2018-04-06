@@ -4,9 +4,21 @@
              x:Class="UsersGitHub.View.Repos">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Repos"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+            <ListView HasUnevenRows="true"
+                      ItemsSource="{Binding Repositories}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
+                                <Label VerticalOptions="FillAndExpand" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="{Binding Name}" 
+                                       FontSize="24"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

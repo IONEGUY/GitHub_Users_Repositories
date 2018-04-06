@@ -14,6 +14,8 @@ namespace UsersGitHub.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                delegate { return true; };
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

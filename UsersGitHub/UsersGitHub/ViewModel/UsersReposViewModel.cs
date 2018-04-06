@@ -58,7 +58,7 @@ namespace UsersGitHub.ViewModel
         {
             var detailPageType = Type.GetType("UsersGitHub.View." + detailPageName, false, true);
             var detailPageConstructor = detailPageType.GetConstructor(new Type[] { });
-            return detailPageConstructor.Invoke(new object[] { }) as Page;
+            return detailPageConstructor.Invoke(new object[] {  }) as Page;
         }
     }
 }
