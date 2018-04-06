@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Windows.Input;
+using Akavache;
+using UsersGitHub.Model;
 using UsersGitHub.View;
 using Xamarin.Forms;
 

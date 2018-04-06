@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Akavache;
+using UsersGitHub.Model;
 using UsersGitHub.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,8 +19,7 @@ namespace UsersGitHub.View
 		public LoginPage ()
 		{
 			InitializeComponent ();
-            BindingContext = new LoginPageViewModel(this){ Navigation = Navigation};
-
+            BindingContext = new LoginPageViewModel();
 		}
-	}
+    }
 }

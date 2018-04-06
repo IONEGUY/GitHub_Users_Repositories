@@ -4,7 +4,8 @@ using System.Text;
 
 namespace UsersGitHub.Model
 {
-    class User
+    public class User
     {
+        public string Login { get; set; }
     }
 }

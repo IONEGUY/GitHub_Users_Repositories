@@ -1,26 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Akavache;
 using UsersGitHub.Model;
 using UsersGitHub.View;
+using UsersGitHub.ViewModel;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace UsersGitHub
 {
 	public partial class App : Application
 	{
-		public App ()
+		public App()
 		{
 			InitializeComponent();
 
 		    MainPage = new NavigationPage(new LoginPage());
 		}
 
-		protected override void OnStart ()
+		protected override async void OnStart ()
 		{
-			// Handle when your app starts
-		}
+		    BlobCache.ApplicationName = "UsersGitHub";
+		    var collection = await BlobCache.UserAccount.GetAllObjects<User>();
+		    var observable = BlobCache.UserAccount.GetAllObjects<User>();
+            if (collection.Any())
+		    {
+		        Current.MainPage = new UsersReposPage();
+		    }
+        }
 
 		protected override void OnSleep ()
 		{

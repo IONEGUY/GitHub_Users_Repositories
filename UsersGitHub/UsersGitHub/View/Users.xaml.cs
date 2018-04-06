@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UsersGitHub.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,7 +14,8 @@ namespace UsersGitHub.View
 	{
 		public Users ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
+            BindingContext = new UsersDetailViewModel();
 		}
 	}
 }
