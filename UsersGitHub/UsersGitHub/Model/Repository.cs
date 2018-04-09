@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UsersGitHub.Model
+﻿namespace UsersGitHub.Model
 {
     public class Repository
     {

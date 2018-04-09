@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 using System.Windows.Input;
-using Akavache;
-using UsersGitHub.Model;
 using UsersGitHub.View;
 using Xamarin.Forms;
 
@@ -13,15 +8,14 @@ namespace UsersGitHub.ViewModel
 {
     public class UsersReposViewModel : BindableObject
     {
-        public ICommand ShowDetailCommand { get; }
-        private bool _isPresented;
-
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
+        public ICommand ShowDetailCommand { get; }
+        private bool isPresented;
+        private object itemSelected;
 
         public UsersReposViewModel()
         {           
             ShowDetailCommand = new Command(parameter => ShowDetail(parameter.ToString()));
-
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
                 new UsersReposPageMenuItem { Id = 0, Title = "Users" },
@@ -31,27 +25,41 @@ namespace UsersGitHub.ViewModel
 
         public bool IsPresented
         {
-            get => _isPresented;
+            get => isPresented;
             set
             {
-                if (_isPresented == value)
+                if (isPresented == value)
                 {
                     return;
                 }
+                isPresented = value;
+                OnPropertyChanged();
+            }
+        }
 
-                _isPresented = value;
+        public object ItemSelected
+        {
+            get => itemSelected;
+            set
+            {
+                if (itemSelected == value)
+                {
+                    return;
+                }
+                itemSelected = value;
                 OnPropertyChanged();
             }
         }
 
         private void ShowDetail(string detailPageName)
         {
-            if (!(Application.Current.MainPage is Xamarin.Forms.MasterDetailPage page))
+            if (!(Application.Current.MainPage is MasterDetailPage page))
             {
                 return;
             }     
             page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
             IsPresented = false;
+            ItemSelected = null;
         }
 
         private Page GetDetailPageInstaceByName(string detailPageName)

@@ -13,18 +13,18 @@ namespace UsersGitHub.ViewModel
 {
     public class ReposViewModel : BindableObject
     {
-        private ObservableCollection<Repository> _repositories;
+        private ObservableCollection<Repository> repositories;
 
         public ObservableCollection<Repository> Repositories
         {
-            get => _repositories;
+            get => repositories;
             set
             {
-                if (_repositories == value)
+                if (repositories == value)
                 {
                     return;
                 }
-                _repositories = value;
+                repositories = value;
                 OnPropertyChanged();
             }
         }

@@ -8,7 +8,8 @@
         <controls:ExtendedListView SeparatorVisibility="None"
                                    HasUnevenRows="true"
                                    ItemsSource="{Binding MenuItems}"
-                                   ItemSelectedCommand="{Binding ShowDetailCommand}">
+                                   ItemSelectedCommand="{Binding ShowDetailCommand}"
+                                   SelectedItem="{Binding ItemSelected, Mode=Default}">
             <ListView.Header>
                 <Frame  HeightRequest="100"
                         HorizontalOptions="FillAndExpand"

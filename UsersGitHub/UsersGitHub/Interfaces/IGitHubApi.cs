@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Refit;
-using UsersGitHub.Model;
 using UsersGitHub.Model.DtoModel;
 
 namespace UsersGitHub.Interfaces

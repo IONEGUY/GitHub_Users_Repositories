@@ -10,12 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace UsersGitHub.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Repos : ContentPage
+	public partial class Repos
 	{
-		public Repos ()
+		public Repos()
 		{
-			InitializeComponent ();
-		    BindingContext = new ReposViewModel();
+            InitializeComponent();
 		}
 	}
 }

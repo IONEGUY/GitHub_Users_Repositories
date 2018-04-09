@@ -10,12 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace UsersGitHub.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Users : ContentPage
+	public partial class Users
 	{
-		public Users ()
+		public Users()
 		{
-			InitializeComponent();
-            BindingContext = new UsersDetailViewModel();
+            InitializeComponent();
 		}
 	}
 }

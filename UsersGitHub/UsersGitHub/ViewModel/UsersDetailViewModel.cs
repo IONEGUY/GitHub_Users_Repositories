@@ -12,7 +12,7 @@ namespace UsersGitHub.ViewModel
 {
     public class UsersDetailViewModel : BindableObject
     {
-        private ObservableCollection<User> _users;
+        private ObservableCollection<User> users;
 
         public UsersDetailViewModel()
         {
@@ -25,17 +25,16 @@ namespace UsersGitHub.ViewModel
             Users = new ObservableCollection<User>(deserializedUsers.Reverse());
         }
 
-
         public ObservableCollection<User> Users
         {
-            get => _users;
+            get => users;
             set
             {
-                if (_users == value)
+                if (users == value)
                 {
                     return;
                 }
-                _users = value;
+                users = value;
                 OnPropertyChanged();
             }
         }

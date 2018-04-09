@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading;
 using System.Windows.Input;
 using UsersGitHub.View;
 using Xamarin.Forms;
@@ -15,7 +13,7 @@ namespace UsersGitHub.Controls
 
         public ICommand ItemSelectedCommand
         {
-            get => (ICommand) GetValue(ItemSelectedCommandProperty);
+            get => (ICommand)GetValue(ItemSelectedCommandProperty);
             set => SetValue(ItemSelectedCommandProperty, value);
         }
 
