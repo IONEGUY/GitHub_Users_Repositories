@@ -18,7 +18,7 @@ namespace UsersGitHub.ViewModel
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
                 new UsersReposPageMenuItem { Id = 0, Title = "Users" },
-                new UsersReposPageMenuItem { Id = 1, Title = "Repos" },
+                new UsersReposPageMenuItem { Id = 1, Title = "Settings" },
             });
         }
 

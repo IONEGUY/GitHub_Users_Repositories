@@ -2,18 +2,29 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:UsersGitHub.ViewModel;assembly=UsersGitHub"
-             x:Class="UsersGitHub.View.Users">
+             x:Class="UsersGitHub.View.Users"
+             x:Name="Self">
     <ContentPage.BindingContext>
         <viewModel:UsersDetailViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Entry HorizontalOptions="FillAndExpand" Text="{Binding UserName, Mode=TwoWay}"/>
+                <Button Text="Add" Command="{Binding AddUserCommand}"/>
+            </StackLayout>
             <ListView HasUnevenRows="true"
                       ItemsSource="{Binding Users}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
+                            <ViewCell.ContextActions>
+                                <MenuItem Command="{Binding BindingContext.DeleteCommand, Source={x:Reference Self}}"
+                                          CommandParameter="{Binding .}"
+                                          Text="Delete" IsDestructive="True" />
+                            </ViewCell.ContextActions>
+                            <StackLayout Padding="15,10"
+                                         HorizontalOptions="FillAndExpand">
                                 <Label VerticalOptions="FillAndExpand" 
                                        VerticalTextAlignment="Center" 
                                        Text="{Binding UserName}" 
