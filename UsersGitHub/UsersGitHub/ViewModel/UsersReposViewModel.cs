@@ -11,7 +11,6 @@ namespace UsersGitHub.ViewModel
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
         private bool isPresented;
-        private object itemSelected;
 
         public UsersReposViewModel()
         {           
@@ -37,20 +36,6 @@ namespace UsersGitHub.ViewModel
             }
         }
 
-        public object ItemSelected
-        {
-            get => itemSelected;
-            set
-            {
-                if (itemSelected == value)
-                {
-                    return;
-                }
-                itemSelected = value;
-                OnPropertyChanged();
-            }
-        }
-
         private void ShowDetail(string detailPageName)
         {
             if (!(Application.Current.MainPage is MasterDetailPage page))
@@ -59,7 +44,6 @@ namespace UsersGitHub.ViewModel
             }     
             page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
             IsPresented = false;
-            ItemSelected = null;
         }
 
         private Page GetDetailPageInstaceByName(string detailPageName)
