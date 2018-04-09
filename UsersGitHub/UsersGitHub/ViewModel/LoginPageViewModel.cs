@@ -18,6 +18,7 @@ using Akavache;
 using Refit;
 using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
+using UsersGitHub.Services;
 
 namespace UsersGitHub.ViewModel
 {
@@ -26,6 +27,7 @@ namespace UsersGitHub.ViewModel
         public INavigation Navigation { get; set; }
         public ICommand GoToUserReposPageCommand { get; set; }
         private string userLogin;
+        public Action errorMessage;
 
         public string UserLogin
         {
@@ -41,52 +43,29 @@ namespace UsersGitHub.ViewModel
             }
         }
 
-        public LoginPageViewModel()
+        public LoginPageViewModel(Action errorMessage)
         {
+            this.errorMessage = errorMessage;
              GoToUserReposPageCommand = new Command(GoToUserReposPage);
         }
 
         private async void GoToUserReposPage()
         {
-            var name = await GetUserInfo(UserLogin);
-            var repositories = await GetUserRepositories(UserLogin);
+            var userService = new UserService();
+            var name = await userService.GetUserInfo(UserLogin);
+            if (name == null)
+            {
+                errorMessage();
+                return;
+            }
+            var repositories = await userService.GetUserRepositories(UserLogin);
             var user = new User
             {
                 UserName = name,
                 Repositories = repositories
             };
-            await BlobCache.UserAccount.InsertObject(UserLogin, user);
+            await BlobCache.UserAccount.InsertObject(name, user);
             Application.Current.MainPage = new UsersReposPage();
-        }
-
-        private async Task<string> GetUserInfo(string userName)
-        {
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://api.github.com")
-            };
-            var gitHubApi = RestService.For<IGitHubApi>(httpClient);
-            var user = await gitHubApi.GetUser(userName);
-            return user.Name;
-        }
-
-        private async Task<ObservableCollection<Repository>> GetUserRepositories(string userName)
-        {
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://api.github.com")
-            };
-            var gitHubApi = RestService.For<IGitHubApi>(httpClient);
-            var deserializedRepositories = await gitHubApi.GetRepositories(userName);
-            var repositories = new ObservableCollection<Repository>();
-            foreach (var repos in deserializedRepositories)
-            {
-                repositories.Add(new Repository
-                {
-                    Name = repos.Name
-                });
-            }
-            return repositories;
         }
     }
 }

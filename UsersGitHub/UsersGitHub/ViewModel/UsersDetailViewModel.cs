@@ -4,9 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Akavache;
 using UsersGitHub.Model;
+using UsersGitHub.Services;
+using UsersGitHub.View;
 using Xamarin.Forms;
 
 namespace UsersGitHub.ViewModel
@@ -15,15 +18,26 @@ namespace UsersGitHub.ViewModel
     {
         private ObservableCollection<User> users;
         private string userName;
+        private readonly Action errorMessage;
         public ICommand AddUserCommand { get; set; }
         public ICommand MoreCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        private readonly INavigation navigation;
 
-        public UsersDetailViewModel()
+        public UsersDetailViewModel(INavigation navigation, Action errorMessage)
         {
+            this.errorMessage = errorMessage;
+            this.navigation = navigation;
             AddUserCommand = new Command(AddUser);
             DeleteCommand = new Command(RemoveUser);
+            MoreCommand = new Command(GetUserRepositories);
             GetUserListFromStorage();
+        }
+
+        private void GetUserRepositories(object userObject)
+        {
+            var user = (User) userObject;
+            navigation.PushAsync(new Repos(user));
         }
 
         private async void RemoveUser(object userObject)
@@ -33,16 +47,22 @@ namespace UsersGitHub.ViewModel
             Users.Remove(user);
         }
 
-        private void AddUser()
+        private async void AddUser()
         {
-            BlobCache.UserAccount.InsertObject(UserName, new User
+            var userService = new UserService();
+            var name = await userService.GetUserInfo(UserName);
+            if (name == null)
             {
-                UserName = UserName
-            });
-            Users.Add(new User
+                errorMessage();
+                return;
+            }
+            var user = new User
             {
-                UserName = UserName
-            });
+                UserName = name,
+                Repositories = await userService.GetUserRepositories(UserName)
+            };
+            await BlobCache.UserAccount.InsertObject(user.UserName, user);
+            Users.Add(user);
         }
 
         private async void GetUserListFromStorage()
@@ -60,7 +80,6 @@ namespace UsersGitHub.ViewModel
                 {
                     return;
                 }
-
                 userName = value;
                 OnPropertyChanged();
             }
@@ -75,7 +94,6 @@ namespace UsersGitHub.ViewModel
                 {
                     return;
                 }
-
                 users = value;
                 OnPropertyChanged();
             }

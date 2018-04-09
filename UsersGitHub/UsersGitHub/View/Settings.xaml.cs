@@ -9,12 +9,12 @@ using Xamarin.Forms.Xaml;
 
 namespace UsersGitHub.View
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Settings : ContentPage
-	{
-		public Settings ()
-		{
-			InitializeComponent ();
-		}
-	}
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class Settings : ContentPage
+    {
+        public Settings()
+        {
+            InitializeComponent();
+        }
+    }
 }

@@ -9,12 +9,13 @@ using Xamarin.Forms.Xaml;
 
 namespace UsersGitHub.View
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Users
-	{
-		public Users()
-		{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class Users
+    {
+        public Users()
+        {
             InitializeComponent();
-		}
-	}
+            BindingContext = new UsersDetailViewModel(Navigation, () => DisplayAlert("Error", "This name doesn't exist", "OK"));
+        }
+    }
 }

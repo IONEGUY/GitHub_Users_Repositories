@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModel="clr-namespace:UsersGitHub.ViewModel;assembly=UsersGitHub"
              x:Class="UsersGitHub.View.Users"
              x:Name="Self">
-    <ContentPage.BindingContext>
-        <viewModel:UsersDetailViewModel/>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Horizontal">
@@ -19,6 +15,9 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.ContextActions>
+                                <MenuItem Command="{Binding BindingContext.MoreCommand, Source={x:Reference Self}}"
+                                          CommandParameter="{Binding .}"
+                                          Text="More" />
                                 <MenuItem Command="{Binding BindingContext.DeleteCommand, Source={x:Reference Self}}"
                                           CommandParameter="{Binding .}"
                                           Text="Delete" IsDestructive="True" />

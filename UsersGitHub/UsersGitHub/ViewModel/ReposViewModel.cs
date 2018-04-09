@@ -14,6 +14,7 @@ namespace UsersGitHub.ViewModel
     public class ReposViewModel : BindableObject
     {
         private ObservableCollection<Repository> repositories;
+        private readonly User user;
 
         public ObservableCollection<Repository> Repositories
         {
@@ -29,14 +30,15 @@ namespace UsersGitHub.ViewModel
             }
         }
 
-        public ReposViewModel()
+        public ReposViewModel(User user)
         {
+            this.user = user;
             GetUrerRepositories();
         }
 
         private async void GetUrerRepositories()
         {
-            Repositories = (await BlobCache.UserAccount.GetAllObjects<User>()).Last().Repositories;
+            Repositories = (await BlobCache.UserAccount.GetObject<User>(user.UserName)).Repositories;
         }
     }
 }
