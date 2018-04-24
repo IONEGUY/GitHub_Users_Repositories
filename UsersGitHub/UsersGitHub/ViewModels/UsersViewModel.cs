@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Akavache;
+using Prism.Navigation;
 using UsersGitHub.Model;
 using UsersGitHub.Services;
-using UsersGitHub.View;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
-namespace UsersGitHub.ViewModel
+namespace UsersGitHub.ViewModels
 {
-    public class UsersDetailViewModel : BindableObject
+    public class UsersViewModel : BaseViewModel
     {
         private ObservableCollection<User> users;
         private string userName;
-        private readonly Action errorMessage;
+
         public ICommand AddUserCommand { get; set; }
         public ICommand MoreCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
-        private readonly INavigation navigation;
 
-        public UsersDetailViewModel(INavigation navigation, Action errorMessage)
+        public UsersViewModel(INavigationService navigationService)
+            : base(navigationService)
         {
-            this.errorMessage = errorMessage;
-            this.navigation = navigation;
             AddUserCommand = new Command(AddUser);
             DeleteCommand = new Command(RemoveUser);
             MoreCommand = new Command(GetUserRepositories);
@@ -37,7 +31,11 @@ namespace UsersGitHub.ViewModel
         private void GetUserRepositories(object userObject)
         {
             var user = (User) userObject;
-            navigation.PushAsync(new Repos(user));
+            var navigationParams = new NavigationParameters
+            {
+                {nameof(user), user}
+            };
+            NavigationService.NavigateAsync(nameof(Repos), navigationParams);
         }
 
         private async void RemoveUser(object userObject)
@@ -53,7 +51,6 @@ namespace UsersGitHub.ViewModel
             var name = await userService.GetUserInfo(UserName);
             if (name == null)
             {
-                errorMessage();
                 return;
             }
             var user = new User
@@ -68,35 +65,19 @@ namespace UsersGitHub.ViewModel
         private async void GetUserListFromStorage()
         {
             var deserializedUsers = await BlobCache.UserAccount.GetAllObjects<User>();
-            Users = new ObservableCollection<User>(deserializedUsers.Reverse());
+            Users = new ObservableCollection<User>(deserializedUsers);
         }
 
         public string UserName
         {
             get => userName;
-            set
-            {
-                if (userName == value)
-                {
-                    return;
-                }
-                userName = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref userName, value);
         }
 
         public ObservableCollection<User> Users
         {
             get => users;
-            set
-            {
-                if (users == value)
-                {
-                    return;
-                }
-                users = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref users, value);
         }
     }
 }

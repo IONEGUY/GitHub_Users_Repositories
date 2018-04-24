@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using UsersGitHub.View;
+using Prism.Navigation;
+using UsersGitHub.Model;
 using Xamarin.Forms;
 
-namespace UsersGitHub.ViewModel
+namespace UsersGitHub.ViewModels
 {
-    public class UsersReposViewModel : BindableObject
+    public class UsersReposPageViewModel : BaseViewModel
     {
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
         private bool isPresented;
 
-        public UsersReposViewModel()
+        public UsersReposPageViewModel(INavigationService navigationService)
+            : base(navigationService)
         {           
             ShowDetailCommand = new Command(parameter => ShowDetail(parameter.ToString()));
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
@@ -25,15 +27,7 @@ namespace UsersGitHub.ViewModel
         public bool IsPresented
         {
             get => isPresented;
-            set
-            {
-                if (isPresented == value)
-                {
-                    return;
-                }
-                isPresented = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref isPresented, value);
         }
 
         private void ShowDetail(string detailPageName)
@@ -48,7 +42,7 @@ namespace UsersGitHub.ViewModel
 
         private Page GetDetailPageInstaceByName(string detailPageName)
         {
-            var detailPageType = Type.GetType("UsersGitHub.View." + detailPageName, false, true);
+            var detailPageType = Type.GetType("UsersGitHub.Views." + detailPageName, false, true);
             var detailPageConstructor = detailPageType.GetConstructor(new Type[] { });
             return detailPageConstructor.Invoke(new object[] {  }) as Page;
         }

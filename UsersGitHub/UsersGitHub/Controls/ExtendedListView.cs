@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Windows.Input;
-using UsersGitHub.View;
+using UsersGitHub.Model;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
 namespace UsersGitHub.Controls

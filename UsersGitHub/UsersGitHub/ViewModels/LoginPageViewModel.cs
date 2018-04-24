@@ -1,51 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Net.Http;
-using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Reactive.Linq;
 using System.Windows.Input;
-using UsersGitHub.Annotations;
-using UsersGitHub.View;
-using Xamarin.Forms;
 using Akavache;
-using Refit;
-using UsersGitHub.Interfaces;
+using Prism.Navigation;
 using UsersGitHub.Model;
 using UsersGitHub.Services;
+using UsersGitHub.Views;
+using Xamarin.Forms;
 
-namespace UsersGitHub.ViewModel
+namespace UsersGitHub.ViewModels
 {
-    public class LoginPageViewModel : BindableObject
+    public class LoginPageViewModel : BaseViewModel
     {
-        public INavigation Navigation { get; set; }
         public ICommand GoToUserReposPageCommand { get; set; }
         private string userLogin;
-        public Action errorMessage;
 
         public string UserLogin
         {
             get => userLogin;
-            set
-            {
-                if (userLogin == value)
-                {
-                    return;
-                }
-                userLogin = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref userLogin, value);
         }
 
-        public LoginPageViewModel(Action errorMessage)
+        public LoginPageViewModel(INavigationService navigationService)
+            : base(navigationService)
         {
-            this.errorMessage = errorMessage;
              GoToUserReposPageCommand = new Command(GoToUserReposPage);
         }
 
@@ -55,7 +32,6 @@ namespace UsersGitHub.ViewModel
             var name = await userService.GetUserInfo(UserLogin);
             if (name == null)
             {
-                errorMessage();
                 return;
             }
             var repositories = await userService.GetUserRepositories(UserLogin);

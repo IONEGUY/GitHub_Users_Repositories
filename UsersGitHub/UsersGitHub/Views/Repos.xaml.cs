@@ -4,19 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UsersGitHub.Model;
-using UsersGitHub.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace UsersGitHub.View
+namespace UsersGitHub.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Repos
     {
-        public Repos(User user)
+        public Repos()
         {
             InitializeComponent();
-            BindingContext = new ReposViewModel(user);
         }
     }
 }

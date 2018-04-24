@@ -1,42 +1,48 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Reactive.Linq;
 using Akavache;
+using Prism;
+using Prism.DryIoc;
+using Prism.Ioc;
+using Prism.Navigation;
+using UsersGitHub.Controls;
 using UsersGitHub.Model;
-using UsersGitHub.View;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
 namespace UsersGitHub
 {
-    public partial class App : Application
+    public partial class App
     {
-        public App()
+        public App() : this(null) { }
+
+        public App(IPlatformInitializer initializer) : base(initializer) { }
+
+        protected override async void OnInitialized()
         {
             InitializeComponent();
             BlobCache.ApplicationName = "UsersGitHub";
             MainPage = new Page();
-        }
-
-        protected override async void OnStart()
-        {
             var userCollection = await BlobCache.UserAccount.GetAllObjects<User>();
             if (userCollection.Any())
             {
-                MainPage = new UsersReposPage();
+                NavigationService.NavigateAsync(nameof(LoginPage)).Wait();
             }
             else
             {
-                MainPage = new NavigationPage(new LoginPage());
+                NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}").Wait();
             }
+
         }
 
-        protected override void OnSleep()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<Repos>();
+            containerRegistry.RegisterForNavigation<Settings>();
+            containerRegistry.RegisterForNavigation<Users>();
+            containerRegistry.RegisterForNavigation<LoginPage>();
         }
     }
 }
