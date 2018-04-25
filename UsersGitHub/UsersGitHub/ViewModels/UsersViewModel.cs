@@ -18,7 +18,7 @@ namespace UsersGitHub.ViewModels
     {
         private ObservableCollection<User> users;
         private string userLogin = String.Empty;
-        private ICurrentUserService currentUserService;
+        private readonly ICurrentUserService currentUserService;
         private readonly IPageDialogService dialogService;
 
         public ICommand AddUserCommand { get; set; }

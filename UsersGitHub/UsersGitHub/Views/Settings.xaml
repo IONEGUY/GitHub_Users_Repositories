@@ -5,8 +5,17 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="UsersGitHub.Views.Settings">
     <StackLayout>
-        <Label Text="Settings"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Horizontal">
+            <Label Text="First name"/>
+            <Entry Text="{Binding CurrentUser.FirstName}"
+                   HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Last name"/>
+            <Entry Text="{Binding CurrentUser.LastName}"
+                   HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+        <Button Text="Save"
+                Command="{Binding SaveCommand}"/>
     </StackLayout>
 </ContentPage>

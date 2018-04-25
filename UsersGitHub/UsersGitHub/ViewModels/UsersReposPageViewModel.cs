@@ -2,8 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Prism.Navigation;
+using Prism.Services;
 using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
 namespace UsersGitHub.ViewModels
@@ -11,14 +13,20 @@ namespace UsersGitHub.ViewModels
     public class UsersReposPageViewModel : BaseViewModel
     {
         private bool isPresented;
+        private readonly ICurrentUserService currentUserService;
+        private readonly IPageDialogService pageDialogService;
 
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
 
-        public UsersReposPageViewModel(INavigationService navigationService)
+        public UsersReposPageViewModel(INavigationService navigationService,
+               ICurrentUserService currentUserService,
+               IPageDialogService pageDialogService)
             : base(navigationService)
         {
-            ShowDetailCommand = new Command(parameter => ShowDetail(parameter.ToString()));
+            this.currentUserService = currentUserService;
+            this.pageDialogService = pageDialogService;
+            ShowDetailCommand = new Command(ShowDetail);
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
                 new UsersReposPageMenuItem { Id = 0, Title = "Users" },
@@ -38,16 +46,27 @@ namespace UsersGitHub.ViewModels
             if (!(Application.Current.MainPage is MasterDetailPage page))
             {
                 return;
-            }     
-            page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
+            }
+            switch (detailPageName)
+            {
+                case "Users":
+                    page.Detail = new NavigationPage(new Users());
+                    break;
+                case "Settings":
+                    SetSettingsPage(ref page);
+                    break;
+            }
             IsPresented = false;
         }
 
-        private Page GetDetailPageInstaceByName(string detailPageName)
+        private void SetSettingsPage(ref MasterDetailPage page)
         {
-            var detailPageType = Type.GetType("UsersGitHub.Views." + detailPageName, false, true);
-            var detailPageConstructor = detailPageType.GetConstructor(new Type[] { });
-            return detailPageConstructor.Invoke(new object[] {  }) as Page;
+            if (currentUserService.User != null)
+            {
+                page.Detail = new NavigationPage(new Settings());
+                return;
+            }
+            pageDialogService.DisplayAlertAsync("Error", @"Сurrent user not specified", "OK");
         }
     }
 }
