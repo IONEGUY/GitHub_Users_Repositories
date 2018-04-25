@@ -7,7 +7,7 @@
              x:Name="Self">
     <StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Entry HorizontalOptions="FillAndExpand" Text="{Binding UserName, Mode=TwoWay}"/>
+            <Entry HorizontalOptions="FillAndExpand" Text="{Binding UserLogin, Mode=TwoWay}"/>
             <Button Text="Add" Command="{Binding AddUserCommand}"/>
         </StackLayout>
         <ListView HasUnevenRows="true"

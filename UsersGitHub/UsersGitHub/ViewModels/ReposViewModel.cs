@@ -26,8 +26,8 @@ namespace UsersGitHub.ViewModels
 
         public async void OnNavigatedTo(NavigationParameters parameters)
         {
-            var user = (User)parameters["user"];
-            Repositories = await new Services.UserService().GetUserRepositories(user.UserName);
+            var userLogin = (string)parameters["Login"];
+            Repositories = await new Services.UserService().GetUserRepositories(userLogin);
         }
     }
 }

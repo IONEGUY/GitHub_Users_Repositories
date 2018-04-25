@@ -1,7 +1,9 @@
-﻿using System.Reactive.Linq;
+﻿using System;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Akavache;
 using Prism.Navigation;
+using Prism.Services;
 using UsersGitHub.Model;
 using UsersGitHub.Services;
 using UsersGitHub.Views;
@@ -11,8 +13,10 @@ namespace UsersGitHub.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
+        private string userLogin = String.Empty;
+        private readonly IPageDialogService dialogService;
+
         public ICommand GoToUserReposPageCommand { get; set; }
-        private string userLogin;
 
         public string UserLogin
         {
@@ -20,10 +24,11 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref userLogin, value);
         }
 
-        public LoginPageViewModel(INavigationService navigationService)
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
         {
-             GoToUserReposPageCommand = new Command(GoToUserReposPage);
+            this.dialogService = dialogService;
+            GoToUserReposPageCommand = new Command(GoToUserReposPage);
         }
 
         private async void GoToUserReposPage()
@@ -32,15 +37,15 @@ namespace UsersGitHub.ViewModels
             var name = await userService.GetUserInfo(UserLogin);
             if (name == null)
             {
+                await dialogService.DisplayAlertAsync("Error", @"This name doesn't exist", "OK");
                 return;
             }
-            var repositories = await userService.GetUserRepositories(UserLogin);
             var user = new User
             {
                 UserName = name,
-                Repositories = repositories
+                Login = userLogin
             };
-            await BlobCache.UserAccount.InsertObject(name, user);
+            await BlobCache.UserAccount.InsertObject(UserLogin, user);
             Application.Current.MainPage = new UsersReposPage();
         }
     }

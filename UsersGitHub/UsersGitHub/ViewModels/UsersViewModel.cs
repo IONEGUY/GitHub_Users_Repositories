@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Akavache;
 using Prism.Navigation;
+using Prism.Services;
 using UsersGitHub.Model;
 using UsersGitHub.Services;
 using UsersGitHub.Views;
@@ -13,27 +15,29 @@ namespace UsersGitHub.ViewModels
     public class UsersViewModel : BaseViewModel
     {
         private ObservableCollection<User> users;
-        private string userName;
+        private string userLogin = String.Empty;
+        private readonly IPageDialogService dialogService;
 
         public ICommand AddUserCommand { get; set; }
         public ICommand MoreCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
-        public UsersViewModel(INavigationService navigationService)
+        public UsersViewModel(INavigationService navigationService, IPageDialogService dialogService)
             : base(navigationService)
         {
+            this.dialogService = dialogService;
             AddUserCommand = new Command(AddUser);
             DeleteCommand = new Command(RemoveUser);
-            MoreCommand = new Command(GetUserRepositories);
+            MoreCommand = new Command(GoToUserRepositories);
             GetUserListFromStorage();
         }
 
-        private void GetUserRepositories(object userObject)
+        private void GoToUserRepositories(object userObject)
         {
             var user = (User) userObject;
             var navigationParams = new NavigationParameters
             {
-                {nameof(user), user}
+                {"Login", user.Login}
             };
             NavigationService.NavigateAsync(nameof(Repos), navigationParams);
         }
@@ -41,24 +45,25 @@ namespace UsersGitHub.ViewModels
         private async void RemoveUser(object userObject)
         {
             var user = (User)userObject;
-            await BlobCache.UserAccount.Invalidate(user.UserName);
+            await BlobCache.UserAccount.Invalidate(user.Login);
             Users.Remove(user);
         }
 
         private async void AddUser()
         {
             var userService = new UserService();
-            var name = await userService.GetUserInfo(UserName);
+            var name = await userService.GetUserInfo(UserLogin);
             if (name == null)
             {
+                await dialogService.DisplayAlertAsync("Error", @"This name doesn't exist", "OK");
                 return;
             }
             var user = new User
             {
                 UserName = name,
-                Repositories = await userService.GetUserRepositories(UserName)
+                Login = UserLogin
             };
-            await BlobCache.UserAccount.InsertObject(user.UserName, user);
+            await BlobCache.UserAccount.InsertObject(UserLogin, user);
             Users.Add(user);
         }
 
@@ -68,10 +73,10 @@ namespace UsersGitHub.ViewModels
             Users = new ObservableCollection<User>(deserializedUsers);
         }
 
-        public string UserName
+        public string UserLogin
         {
-            get => userName;
-            set => SetProperty(ref userName, value);
+            get => userLogin;
+            set => SetProperty(ref userLogin, value);
         }
 
         public ObservableCollection<User> Users

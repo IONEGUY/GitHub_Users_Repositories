@@ -1,6 +1,8 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Akavache;
 using Prism;
 using Prism.DryIoc;
@@ -19,19 +21,18 @@ namespace UsersGitHub
 
         public App(IPlatformInitializer initializer) : base(initializer) { }
 
-        protected override async void OnInitialized()
+        protected override void OnInitialized()
         {
             InitializeComponent();
             BlobCache.ApplicationName = "UsersGitHub";
-            MainPage = new Page();
-            var userCollection = await BlobCache.UserAccount.GetAllObjects<User>();
+            var userCollection = BlobCache.UserAccount.GetAllObjects<User>().Wait();
             if (userCollection.Any())
             {
-                NavigationService.NavigateAsync(nameof(LoginPage)).Wait();
+                NavigationService.NavigateAsync(nameof(UsersReposPage)).Wait();
             }
             else
             {
-                NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}").Wait();
+                NavigationService.NavigateAsync(nameof(LoginPage)).Wait();
             }
 
         }
@@ -43,6 +44,7 @@ namespace UsersGitHub
             containerRegistry.RegisterForNavigation<Settings>();
             containerRegistry.RegisterForNavigation<Users>();
             containerRegistry.RegisterForNavigation<LoginPage>();
+            containerRegistry.RegisterForNavigation<UsersReposPage>();
         }
     }
 }
