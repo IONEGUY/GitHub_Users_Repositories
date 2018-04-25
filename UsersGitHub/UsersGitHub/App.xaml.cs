@@ -8,7 +8,9 @@ using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Navigation;
+using UsersGitHub.Classes;
 using UsersGitHub.Controls;
+using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
 using UsersGitHub.Views;
 using Xamarin.Forms;
@@ -34,11 +36,11 @@ namespace UsersGitHub
             {
                 NavigationService.NavigateAsync(nameof(LoginPage)).Wait();
             }
-
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ICurrentUserService, CurrentUserervice>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<Repos>();
             containerRegistry.RegisterForNavigation<Settings>();

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:controls="clr-namespace:UsersGitHub.Controls;assembly=UsersGitHub"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="UsersGitHub.Views.Users"
              x:Name="Self">
@@ -10,8 +11,9 @@
             <Entry HorizontalOptions="FillAndExpand" Text="{Binding UserLogin, Mode=TwoWay}"/>
             <Button Text="Add" Command="{Binding AddUserCommand}"/>
         </StackLayout>
-        <ListView HasUnevenRows="true"
-                      ItemsSource="{Binding Users}">
+        <controls:ExtendedListView HasUnevenRows="true"
+                      ItemsSource="{Binding Users}"
+                      ItemSelectedCommand="{Binding SetCurrentUserCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -33,6 +35,6 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </controls:ExtendedListView>
     </StackLayout>
 </ContentPage>

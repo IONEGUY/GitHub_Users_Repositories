@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Prism.Navigation;
+using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
 
 namespace UsersGitHub.ViewModels

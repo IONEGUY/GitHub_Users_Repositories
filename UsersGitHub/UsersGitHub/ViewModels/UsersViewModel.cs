@@ -3,8 +3,10 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Akavache;
+using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
 using UsersGitHub.Services;
 using UsersGitHub.Views;
@@ -16,20 +18,31 @@ namespace UsersGitHub.ViewModels
     {
         private ObservableCollection<User> users;
         private string userLogin = String.Empty;
+        private ICurrentUserService currentUserService;
         private readonly IPageDialogService dialogService;
 
         public ICommand AddUserCommand { get; set; }
         public ICommand MoreCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand SetCurrentUserCommand { get; set; }
 
-        public UsersViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public UsersViewModel(INavigationService navigationService, 
+            IPageDialogService dialogService,
+            ICurrentUserService currentUserService)
             : base(navigationService)
         {
+            this.currentUserService = currentUserService;
             this.dialogService = dialogService;
             AddUserCommand = new Command(AddUser);
             DeleteCommand = new Command(RemoveUser);
             MoreCommand = new Command(GoToUserRepositories);
+            SetCurrentUserCommand = new Command(SetCurrentUser);
             GetUserListFromStorage();
+        }
+
+        private void SetCurrentUser(object selectedUser)
+        {
+            currentUserService.User = (User)selectedUser;
         }
 
         private void GoToUserRepositories(object userObject)

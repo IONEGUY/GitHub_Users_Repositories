@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Prism.Navigation;
+using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
 using Xamarin.Forms;
 
@@ -9,13 +10,14 @@ namespace UsersGitHub.ViewModels
 {
     public class UsersReposPageViewModel : BaseViewModel
     {
+        private bool isPresented;
+
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
-        private bool isPresented;
 
         public UsersReposPageViewModel(INavigationService navigationService)
             : base(navigationService)
-        {           
+        {
             ShowDetailCommand = new Command(parameter => ShowDetail(parameter.ToString()));
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
@@ -30,8 +32,9 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref isPresented, value);
         }
 
-        private void ShowDetail(string detailPageName)
+        private void ShowDetail(object detailPage)
         {
+            var detailPageName = ((UsersReposPageMenuItem) detailPage).Title;
             if (!(Application.Current.MainPage is MasterDetailPage page))
             {
                 return;
