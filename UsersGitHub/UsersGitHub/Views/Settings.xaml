@@ -2,9 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:convertors="clr-namespace:UsersGitHub.Convertors;assembly=UsersGitHub"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="UsersGitHub.Views.Settings">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <convertors:PathConvertor x:Key="convertPath" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>
+        <Image Source="{Binding Source, Converter={StaticResource convertPath}}"/>
+        <Button Text="Take photo"
+                Command="{Binding TakePhotoCommand}"/>
+        <Button Text="Get photo"
+                Command="{Binding GetPhotoCommand}"/>
         <StackLayout Orientation="Horizontal">
             <Label Text="First name"/>
             <Entry Text="{Binding CurrentUser.FirstName}"
