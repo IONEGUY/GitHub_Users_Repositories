@@ -31,5 +31,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </controls:ExtendedListView>
+        <Label Text="{Binding CurrentVersion}" VerticalOptions="EndAndExpand"/>
     </StackLayout>
 </ContentPage>

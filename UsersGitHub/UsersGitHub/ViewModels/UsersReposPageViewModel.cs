@@ -15,6 +15,7 @@ namespace UsersGitHub.ViewModels
     public class UsersReposPageViewModel : BaseViewModel
     {
         private bool isPresented;
+        private string version;
         private readonly ICurrentUserService currentUserService;
         private readonly IPageDialogService pageDialogService;
 
@@ -27,11 +28,19 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref isPresented, value);
         }
 
+        public string CurrentVersion
+        {
+            get => version;
+            set => SetProperty(ref version, value);
+        }
+
         public UsersReposPageViewModel(INavigationService navigationService,
                ICurrentUserService currentUserService,
                IPageDialogService pageDialogService)
             : base(navigationService)
         {
+            CurrentVersion = "Current app version: " +
+                Xamarin.Forms.DependencyService.Get<IAppVersion>().GetVersion();
             this.currentUserService = currentUserService;
             this.pageDialogService = pageDialogService;
             CheckInternetConnection();
