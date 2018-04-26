@@ -16,7 +16,9 @@
                 Command="{Binding TakePhotoCommand}"/>
         <Button Text="Get photo"
                 Command="{Binding GetPhotoCommand}"/>
-        <StackLayout Orientation="Horizontal">
+        <TimePicker Time="{Binding Time, Mode=TwoWay}"
+                        HorizontalOptions="FillAndExpand"/>
+            <StackLayout Orientation="Horizontal">
             <Label Text="First name"/>
             <Entry Text="{Binding CurrentUser.FirstName}"
                    HorizontalOptions="FillAndExpand"/>
