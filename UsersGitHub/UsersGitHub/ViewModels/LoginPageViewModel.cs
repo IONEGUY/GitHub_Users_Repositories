@@ -6,6 +6,7 @@ using Akavache;
 using Plugin.Connectivity;
 using Prism.Navigation;
 using Prism.Services;
+using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
 using UsersGitHub.Services;
 using UsersGitHub.Views;
@@ -16,6 +17,7 @@ namespace UsersGitHub.ViewModels
     public class LoginPageViewModel : BaseViewModel
     {
         private string userLogin;
+        private readonly IUserService userService;
         private readonly IPageDialogService dialogService;
 
         public ICommand GoToUserReposPageCommand { get; set; }
@@ -26,12 +28,15 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref userLogin, value);
         }
 
-        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public LoginPageViewModel(INavigationService navigationService, 
+            IPageDialogService dialogService,
+            IUserService userService)
             : base(navigationService)
         {
+            this.userService = userService;
             this.dialogService = dialogService;
             CheckInternetConnection();
-            UserLogin = String.Empty;
+            UserLogin = string.Empty;
             GoToUserReposPageCommand = new Command(GoToUserReposPage);
         }
 
@@ -47,7 +52,6 @@ namespace UsersGitHub.ViewModels
 
         private async void GoToUserReposPage()
         {
-            var userService = new UserService();
             var name = await userService.GetUserInfo(UserLogin);
             if (name == null)
             {

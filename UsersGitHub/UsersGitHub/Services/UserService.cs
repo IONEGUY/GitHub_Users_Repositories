@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Logging;
 using Refit;
 using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
@@ -12,7 +13,7 @@ using Xamarin.Forms.Internals;
 
 namespace UsersGitHub.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         public async Task<string> GetUserInfo(string userName)
         {
@@ -24,9 +25,9 @@ namespace UsersGitHub.Services
             var gitHubApi = RestService.For<IGitHubApi>(httpClient);
             try
             {
-               user = await gitHubApi.GetUser(userName);
+                user = await gitHubApi.GetUser(userName);
             }
-            catch (ApiException)
+            catch (Exception)
             {
                 return null;
             }
