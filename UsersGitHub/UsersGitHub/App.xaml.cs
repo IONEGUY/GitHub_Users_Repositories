@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using Akavache;
+using AutoMapper;
 using Prism;
-using Prism.DryIoc;
 using Prism.Ioc;
-using Prism.Navigation;
-using UsersGitHub.Controls;
 using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
+using UsersGitHub.Model.DtoModel;
 using UsersGitHub.Services;
 using UsersGitHub.Views;
 using Xamarin.Forms;
@@ -27,10 +23,11 @@ namespace UsersGitHub
         {
             InitializeComponent();
             BlobCache.ApplicationName = "UsersGitHub";
+            Mapper.Initialize(cfg => cfg.CreateMap<RepositoryDto, Repository>());
             var userCollection = BlobCache.UserAccount.GetAllObjects<User>().Wait();
             if (userCollection.Any())
             {
-                NavigationService.NavigateAsync(nameof(UsersReposPage)).Wait();
+                NavigationService.NavigateAsync($"{nameof(UsersReposPage)}/{nameof(NavigationPage)}/{nameof(Users)}").Wait();
             }
             else
             {

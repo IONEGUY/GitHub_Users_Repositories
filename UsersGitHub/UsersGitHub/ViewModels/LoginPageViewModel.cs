@@ -30,24 +30,15 @@ namespace UsersGitHub.ViewModels
 
         public LoginPageViewModel(INavigationService navigationService, 
             IPageDialogService dialogService,
-            IUserService userService)
+            IUserService userService,
+            IInternetConnectionService internetConnectionService)
             : base(navigationService)
         {
             this.userService = userService;
             this.dialogService = dialogService;
-            CheckInternetConnection();
+            internetConnectionService.Init();
             UserLogin = string.Empty;
             GoToUserReposPageCommand = new Command(GoToUserReposPage);
-        }
-
-
-        private void CheckInternetConnection()
-        {
-            var isConnected = CrossConnectivity.Current.IsConnected;
-            if (!isConnected)
-            {
-                UserDialogs.Instance.Loading("Waiting for internet connection!!!");
-            }
         }
 
         private async void GoToUserReposPage()
