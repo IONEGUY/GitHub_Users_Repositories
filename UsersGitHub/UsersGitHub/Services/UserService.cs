@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Prism.Logging;
 using Refit;
 using UsersGitHub.Interfaces;
@@ -16,21 +15,14 @@ namespace UsersGitHub.Services
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient httpClient;
-        private readonly IGitHubApi gitHubApi;
-
-        public UserService()
-        {
-            httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://api.github.com")
-            };
-            gitHubApi = RestService.For<IGitHubApi>(httpClient);
-        }
-
         public async Task<string> GetUserInfo(string userName)
         {
             UserDto user;
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://api.github.com")
+            };
+            var gitHubApi = RestService.For<IGitHubApi>(httpClient);
             try
             {
                 user = await gitHubApi.GetUser(userName);
@@ -44,31 +36,29 @@ namespace UsersGitHub.Services
 
         public async Task<ObservableCollection<Repository>> GetUserRepositories(string userName)
         {
-            IEnumerable<RepositoryDto> deserializedRepositories;
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://api.github.com")
+            };
+            var gitHubApi = RestService.For<IGitHubApi>(httpClient);
+            IList<RepositoryDto> deserializedRepositories;
             try
             {
                 deserializedRepositories = await gitHubApi.GetRepositories(userName);
             }
-            catch (Exception)
+            catch (ApiException)
             {
                 return null;
             }
-            return GetRepos(deserializedRepositories);
-        }
-
-        private ObservableCollection<Repository> GetRepos(IEnumerable<RepositoryDto> deserializedRepositories)
-        {
             var repositories = new ObservableCollection<Repository>();
-            foreach (var reposDto in deserializedRepositories)
+            foreach (var repos in deserializedRepositories)
             {
-                var repos = Mapper.Map<Repository>(reposDto);
-                repositories.Add(repos);
+                repositories.Add(new Repository
+                {
+                    Name = repos.Name
+                });
             }
             return repositories;
-        }
-
-        private void InitMapper()
-        {
         }
     }
 }

@@ -19,7 +19,6 @@ namespace UsersGitHub.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly INavigationService navigationService;
         private readonly ICurrentUserService currentUserService;
         private readonly IPageDialogService dialogService;
         private readonly ICameraService cameraService;
@@ -66,7 +65,6 @@ namespace UsersGitHub.ViewModels
             ICameraService cameraService)
             : base(navigationService)
         {
-            this.navigationService = navigationService;
             this.cameraService = cameraService;
             this.dialogService = dialogService;
             this.currentUserService = currentUserService;
@@ -134,15 +132,11 @@ namespace UsersGitHub.ViewModels
             Date = Date.AddDays(2);
             Time = Date.TimeOfDay;
             var user = currentUserService.User;
-            if (user.Image == null)
-            {
-                return string.Empty;
-            }
             var image = await
                 BlobCache.UserAccount.GetAndFetchLatest(user.Login + postfix,
                     () => Task.FromResult<UserImage>(null),
                     createdAt => DateTime.Now - createdAt > user.Image.Offset);
-            return image.Path;
+            return image?.Path ?? string.Empty;
         }
     }
 }

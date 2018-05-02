@@ -24,8 +24,7 @@
             <StackLayout Orientation="Horizontal">
             <Label Text="First name"/>
             <controls:ExtendedEntry Text="{Binding CurrentUser.FirstName}"
-                   HorizontalOptions="FillAndExpand"
-                   x:Name="firstNameEntry">
+                   HorizontalOptions="FillAndExpand">
                 <controls:ExtendedEntry.Behaviors>
                     <behaviors:EntryValidationBehavior/>
                 </controls:ExtendedEntry.Behaviors>
@@ -34,8 +33,7 @@
         <StackLayout Orientation="Horizontal">
             <Label Text="Last name"/>
             <controls:ExtendedEntry Text="{Binding CurrentUser.LastName}"
-                   HorizontalOptions="FillAndExpand"
-                   x:Name="lastNameEntry">
+                   HorizontalOptions="FillAndExpand">
                 <controls:ExtendedEntry.Behaviors>
                     <behaviors:EntryValidationBehavior/>
                 </controls:ExtendedEntry.Behaviors>

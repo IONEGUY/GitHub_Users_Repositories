@@ -73,7 +73,8 @@ namespace UsersGitHub.ViewModels
         private async void ShowDetail(object detailPage)
         {
             var detailPageName = ((UsersReposPageMenuItem) detailPage).Title;
-            var navigationString = $"{nameof(NavigationPage)}/";
+            var navigationString = string.Empty;//$"{nameof(UsersReposPage)}/{nameof(NavigationPage)}/";
+
             switch (detailPageName)
             {
                 case nameof(Users):
