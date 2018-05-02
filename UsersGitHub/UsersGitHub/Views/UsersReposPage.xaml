@@ -6,14 +6,7 @@
              x:Class="UsersGitHub.Views.UsersReposPage"
              xmlns:pages="clr-namespace:UsersGitHub.Views"
              IsPresented="{Binding IsPresented, Mode=TwoWay}">
-   <MasterDetailPage.Master>
-     <pages:UsersReposPageMaster />
-  </MasterDetailPage.Master>
-  <MasterDetailPage.Detail>
-    <NavigationPage>
-      <x:Arguments>
-        <pages:Users />
-      </x:Arguments>
-    </NavigationPage>
-  </MasterDetailPage.Detail>
+    <MasterDetailPage.Master>
+        <pages:UsersReposPageMaster />
+    </MasterDetailPage.Master>
 </MasterDetailPage>

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:convertors="clr-namespace:UsersGitHub.Convertors;assembly=UsersGitHub"
+             xmlns:controls="clr-namespace:UsersGitHub.Controls;assembly=UsersGitHub"
+             xmlns:behaviors="clr-namespace:UsersGitHub.Behaviors;assembly=UsersGitHub"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="UsersGitHub.Views.Settings">
     <ContentPage.Resources>
@@ -16,19 +18,27 @@
                 Command="{Binding TakePhotoCommand}"/>
         <Button Text="Get photo"
                 Command="{Binding GetPhotoCommand}"/>
+        <DatePicker Date="{Binding Date, Mode=TwoWay}"/>
         <TimePicker Time="{Binding Time, Mode=TwoWay}"
                         HorizontalOptions="FillAndExpand"/>
             <StackLayout Orientation="Horizontal">
             <Label Text="First name"/>
-            <Entry Text="{Binding CurrentUser.FirstName}"
-                   HorizontalOptions="FillAndExpand"/>
+            <controls:ExtendedEntry Text="{Binding CurrentUser.FirstName}"
+                   HorizontalOptions="FillAndExpand">
+                <controls:ExtendedEntry.Behaviors>
+                    <behaviors:EntryValidationBehavior/>
+                </controls:ExtendedEntry.Behaviors>
+            </controls:ExtendedEntry>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
             <Label Text="Last name"/>
-            <Entry Text="{Binding CurrentUser.LastName}"
-                   HorizontalOptions="FillAndExpand"/>
+            <controls:ExtendedEntry Text="{Binding CurrentUser.LastName}"
+                   HorizontalOptions="FillAndExpand">
+                <controls:ExtendedEntry.Behaviors>
+                    <behaviors:EntryValidationBehavior/>
+                </controls:ExtendedEntry.Behaviors>
+            </controls:ExtendedEntry>
         </StackLayout>
-        <Button Text="Save"
-                Command="{Binding SaveCommand}"/>
+        <Button Text="Save" Command="{Binding SaveCommand}"/>
     </StackLayout>
 </ContentPage>
