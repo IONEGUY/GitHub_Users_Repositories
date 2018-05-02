@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UsersGitHub.Interfaces;
+﻿using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
 
-namespace UsersGitHub.Classes
+namespace UsersGitHub.Services
 {
     public class CurrentUserService : ICurrentUserService
     {
