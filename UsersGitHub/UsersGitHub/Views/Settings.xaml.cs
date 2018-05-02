@@ -1,8 +1,5 @@
-﻿using Xamarin.Forms.Xaml;
-
-namespace UsersGitHub.Views
+﻿namespace UsersGitHub.Views
 {
-    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Settings
     {
         public Settings()

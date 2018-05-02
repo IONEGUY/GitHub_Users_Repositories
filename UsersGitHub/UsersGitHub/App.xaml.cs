@@ -8,10 +8,10 @@ using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Navigation;
+using UsersGitHub.Classes;
 using UsersGitHub.Controls;
 using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
-using UsersGitHub.Services;
 using UsersGitHub.Views;
 using Xamarin.Forms;
 
@@ -40,10 +40,7 @@ namespace UsersGitHub
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<ICameraService, CameraService>();
-            containerRegistry.Register<IInternetConnectionService, InternetConnectionService>();
-            containerRegistry.Register<IUserService, UserService>();
-            containerRegistry.RegisterSingleton<ICurrentUserService, CurrentUserService>();
+            containerRegistry.RegisterSingleton<ICurrentUserService, CurrentUserervice>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<Repos>();
             containerRegistry.RegisterForNavigation<Settings>();

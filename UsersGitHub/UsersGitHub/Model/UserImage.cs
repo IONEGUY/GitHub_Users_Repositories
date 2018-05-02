@@ -6,7 +6,8 @@ namespace UsersGitHub.Model
 {
     public class UserImage
     {
+        public bool IsTimeSaving { get; set; } = false;
         public string Path { get; set; }
-        public TimeSpan Offset { get; set; }
+        public TimeSpan? Time { get; set; }
     }
 }

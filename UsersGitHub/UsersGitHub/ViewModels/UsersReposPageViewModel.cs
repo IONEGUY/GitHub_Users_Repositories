@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using Plugin.Connectivity;
@@ -15,13 +14,10 @@ namespace UsersGitHub.ViewModels
 {
     public class UsersReposPageViewModel : BaseViewModel
     {
-        private string firstNameCheckLabel;
-        private string lastNameCheckLabel;
         private bool isPresented;
         private string version;
         private readonly ICurrentUserService currentUserService;
         private readonly IPageDialogService pageDialogService;
-        private readonly INavigationService navigationService;
 
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
@@ -32,18 +28,6 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref isPresented, value);
         }
 
-        public string FirstNameCheckLabel
-        {
-            get => firstNameCheckLabel;
-            set => SetProperty(ref firstNameCheckLabel, value);
-        }
-
-        public string LastNameCheckLabel
-        {
-            get => lastNameCheckLabel;
-            set => SetProperty(ref lastNameCheckLabel, value);
-        }
-
         public string CurrentVersion
         {
             get => version;
@@ -52,40 +36,58 @@ namespace UsersGitHub.ViewModels
 
         public UsersReposPageViewModel(INavigationService navigationService,
                ICurrentUserService currentUserService,
-               IPageDialogService pageDialogService,
-               IAppVersion appVersion,
-               IInternetConnectionService internetConnectionService)
+               IPageDialogService pageDialogService)
             : base(navigationService)
         {
-            this.navigationService = navigationService;
+            CurrentVersion = "Current app version: " +
+                Xamarin.Forms.DependencyService.Get<IAppVersion>().GetVersion();
             this.currentUserService = currentUserService;
             this.pageDialogService = pageDialogService;
-            internetConnectionService.Init();
-            CurrentVersion = "v. " + appVersion.GetVersion();
+            CheckInternetConnection();
             ShowDetailCommand = new Command(ShowDetail);
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
                 new UsersReposPageMenuItem { Id = 0, Title = "Users" },
-                new UsersReposPageMenuItem { Id = 1, Title = "Settings" }
+                new UsersReposPageMenuItem { Id = 1, Title = "Settings" },
             });
         }
 
-        private async void ShowDetail(object detailPage)
+        private void CheckInternetConnection()
+        {
+            var isConnected = CrossConnectivity.Current.IsConnected;
+            if (!isConnected)
+            {
+                UserDialogs.Instance.Loading("Waiting for internet connection!!!");
+            }
+        }
+
+        private void ShowDetail(object detailPage)
         {
             var detailPageName = ((UsersReposPageMenuItem) detailPage).Title;
-            var navigationString = string.Empty;//$"{nameof(UsersReposPage)}/{nameof(NavigationPage)}/";
-
+            if (!(Application.Current.MainPage is MasterDetailPage page))
+            {
+                return;
+            }
             switch (detailPageName)
             {
-                case nameof(Users):
-                    navigationString += nameof(Users);
+                case "Users":
+                    page.Detail = new NavigationPage(new Users());
                     break;
-                case nameof(Settings):
-                    navigationString += nameof(Settings);
+                case "Settings":
+                    SetSettingsPage(ref page);
                     break;
             }
-            await navigationService.NavigateAsync(navigationString);
             IsPresented = false;
+        }
+
+        private void SetSettingsPage(ref MasterDetailPage page)
+        {
+            if (currentUserService.User != null)
+            {
+                page.Detail = new NavigationPage(new Settings());
+                return;
+            }
+            pageDialogService.DisplayAlertAsync("Error", @"Сurrent user not specified", "OK");
         }
     }
 }
