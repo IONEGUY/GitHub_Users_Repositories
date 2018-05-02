@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Windows.Input;
-using Acr.UserDialogs;
 using Akavache;
-using Plugin.Connectivity;
 using Prism.Navigation;
 using Prism.Services;
 using UsersGitHub.Model;
@@ -30,19 +28,8 @@ namespace UsersGitHub.ViewModels
             : base(navigationService)
         {
             this.dialogService = dialogService;
-            CheckInternetConnection();
             UserLogin = String.Empty;
             GoToUserReposPageCommand = new Command(GoToUserReposPage);
-        }
-
-
-        private void CheckInternetConnection()
-        {
-            var isConnected = CrossConnectivity.Current.IsConnected;
-            if (!isConnected)
-            {
-                UserDialogs.Instance.Loading("Waiting for internet connection!!!");
-            }
         }
 
         private async void GoToUserReposPage()
