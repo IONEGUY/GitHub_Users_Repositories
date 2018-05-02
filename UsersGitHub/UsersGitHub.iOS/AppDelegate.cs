@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Prism;
+using Prism.Ioc;
 using UIKit;
+using UsersGitHub.Interfaces;
 
 namespace UsersGitHub.iOS
 {
@@ -23,9 +26,17 @@ namespace UsersGitHub.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(new IOSInitializer()));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        private class IOSInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+                containerRegistry.Register<ICurrentVersionService, CurrentVersionService>();
+            }
         }
     }
 }

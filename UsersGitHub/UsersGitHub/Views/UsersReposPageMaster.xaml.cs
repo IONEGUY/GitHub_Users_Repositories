@@ -1,9 +1,5 @@
-﻿using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace UsersGitHub.View
+﻿namespace UsersGitHub.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsersReposPageMaster
     {
         public UsersReposPageMaster()

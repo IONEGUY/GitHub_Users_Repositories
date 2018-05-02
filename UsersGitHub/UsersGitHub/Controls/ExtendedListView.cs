@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Windows.Input;
-using UsersGitHub.View;
+using UsersGitHub.Model;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
 namespace UsersGitHub.Controls
@@ -24,8 +25,8 @@ namespace UsersGitHub.Controls
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
         {
-            var page = (UsersReposPageMenuItem)selectedItemChangedEventArgs.SelectedItem;
-            ItemSelectedCommand?.Execute(page.Title);
+            var item = selectedItemChangedEventArgs.SelectedItem;
+            ItemSelectedCommand?.Execute(item);
         }
     }
 }

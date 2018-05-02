@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UsersGitHub.ViewModel;
+using UsersGitHub.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace UsersGitHub.View
+namespace UsersGitHub.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Repos
-	{
-		public Repos()
-		{
+    public partial class Repos
+    {
+        public Repos()
+        {
             InitializeComponent();
-		}
-	}
+        }
+    }
 }
