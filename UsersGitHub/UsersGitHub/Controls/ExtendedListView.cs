@@ -25,8 +25,8 @@ namespace UsersGitHub.Controls
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
         {
-            var page = (UsersReposPageMenuItem)selectedItemChangedEventArgs.SelectedItem;
-            ItemSelectedCommand?.Execute(page.Title);
+            var item = selectedItemChangedEventArgs.SelectedItem;
+            ItemSelectedCommand?.Execute(item);
         }
     }
 }

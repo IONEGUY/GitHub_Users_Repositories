@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
+using Plugin.Connectivity;
 using Prism.Navigation;
+using Prism.Services;
+using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
 namespace UsersGitHub.ViewModels
 {
     public class UsersReposPageViewModel : BaseViewModel
     {
+        private string firstNameCheckLabel;
+        private string lastNameCheckLabel;
+        private bool isPresented;
+        private string version;
+        private readonly INavigationService navigationService;
+
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
-        private bool isPresented;
-
-        public UsersReposPageViewModel(INavigationService navigationService)
-            : base(navigationService)
-        {           
-            ShowDetailCommand = new Command(parameter => ShowDetail(parameter.ToString()));
-            MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
-            {
-                new UsersReposPageMenuItem { Id = 0, Title = "Users" },
-                new UsersReposPageMenuItem { Id = 1, Title = "Settings" },
-            });
-        }
 
         public bool IsPresented
         {
@@ -30,21 +30,44 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref isPresented, value);
         }
 
-        private void ShowDetail(string detailPageName)
+        public string FirstNameCheckLabel
         {
-            if (!(Application.Current.MainPage is MasterDetailPage page))
-            {
-                return;
-            }     
-            page.Detail = new NavigationPage(GetDetailPageInstaceByName(detailPageName));
-            IsPresented = false;
+            get => firstNameCheckLabel;
+            set => SetProperty(ref firstNameCheckLabel, value);
         }
 
-        private Page GetDetailPageInstaceByName(string detailPageName)
+        public string LastNameCheckLabel
         {
-            var detailPageType = Type.GetType("UsersGitHub.Views." + detailPageName, false, true);
-            var detailPageConstructor = detailPageType.GetConstructor(new Type[] { });
-            return detailPageConstructor.Invoke(new object[] {  }) as Page;
+            get => lastNameCheckLabel;
+            set => SetProperty(ref lastNameCheckLabel, value);
+        }
+
+        public string CurrentVersion
+        {
+            get => version;
+            set => SetProperty(ref version, value);
+        }
+
+        public UsersReposPageViewModel(
+               INavigationService navigationService,
+               ICurrentVersionService appVersion)
+        {
+            this.navigationService = navigationService;
+            CurrentVersion = "v. " + appVersion.GetVersion();
+            ShowDetailCommand = new Command(ShowDetail);
+            MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
+            {
+                new UsersReposPageMenuItem { Id = 0, Title = "Users", PageName = nameof(Users)},
+                new UsersReposPageMenuItem { Id = 1, Title = "Settings", PageName = nameof(Settings)}
+            });
+        }
+
+        private async void ShowDetail(object detailPage)
+        {
+            var detailPageName = ((UsersReposPageMenuItem)detailPage).PageName;
+            var navigationString = $"{nameof(NavigationPage)}/{detailPageName}";
+            await navigationService.NavigateAsync(navigationString);
+            IsPresented = false;
         }
     }
 }
