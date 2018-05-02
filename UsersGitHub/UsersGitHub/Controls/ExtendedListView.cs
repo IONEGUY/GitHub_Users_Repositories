@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading;
 using System.Windows.Input;
-using UsersGitHub.View;
+using UsersGitHub.Model;
+using UsersGitHub.Views;
 using Xamarin.Forms;
 
 namespace UsersGitHub.Controls
@@ -15,7 +14,7 @@ namespace UsersGitHub.Controls
 
         public ICommand ItemSelectedCommand
         {
-            get => (ICommand) GetValue(ItemSelectedCommandProperty);
+            get => (ICommand)GetValue(ItemSelectedCommandProperty);
             set => SetValue(ItemSelectedCommandProperty, value);
         }
 
@@ -26,8 +25,8 @@ namespace UsersGitHub.Controls
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
         {
-            var page = (UsersReposPageMenuItem)selectedItemChangedEventArgs.SelectedItem;
-            ItemSelectedCommand?.Execute(page.Title);
+            var item = selectedItemChangedEventArgs.SelectedItem;
+            ItemSelectedCommand?.Execute(item);
         }
     }
 }

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:controls="clr-namespace:UsersGitHub.Controls;assembly=UsersGitHub"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="UsersGitHub.Views.Users"
+             x:Name="Self">
+    <StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Entry HorizontalOptions="FillAndExpand" Text="{Binding UserLogin, Mode=TwoWay}"/>
+            <Button Text="Add" Command="{Binding AddUserCommand}"/>
+        </StackLayout>
+        <controls:ExtendedListView HasUnevenRows="true"
+                      ItemsSource="{Binding Users}"
+                      ItemSelectedCommand="{Binding SetCurrentUserCommand}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding BindingContext.MoreCommand, Source={x:Reference Self}}"
+                                          CommandParameter="{Binding .}"
+                                          Text="More" />
+                            <MenuItem Command="{Binding BindingContext.DeleteCommand, Source={x:Reference Self}}"
+                                          CommandParameter="{Binding .}"
+                                          Text="Delete" IsDestructive="True" />
+                        </ViewCell.ContextActions>
+                        <StackLayout Padding="15,10"
+                                         HorizontalOptions="FillAndExpand">
+                            <Label VerticalOptions="FillAndExpand" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="{Binding UserName}" 
+                                       FontSize="24"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </controls:ExtendedListView>
+    </StackLayout>
+</ContentPage>

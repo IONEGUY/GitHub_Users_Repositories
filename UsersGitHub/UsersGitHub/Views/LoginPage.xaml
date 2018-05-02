@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="UsersGitHub.View.LoginPage"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="UsersGitHub.Views.LoginPage"
              BackgroundColor="DarkBlue">
-    <ContentPage.Content>
-        <StackLayout>
-            <Entry WidthRequest="250"
+    <StackLayout>
+        <Entry WidthRequest="250"
                    HorizontalOptions="Center"
                    BackgroundColor="LightGray"
                    Margin="0,100,0,0" 
                    Placeholder="Login"
                    Text="{Binding UserLogin}"/>
-            <Button Command="{Binding GoToUserReposPageCommand}"
+        <Button Command="{Binding GoToUserReposPageCommand}"
                     WidthRequest="100"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     BackgroundColor="LightGray"
                     Margin="0,200,0,0"
                     Text="Log in"/>
-        </StackLayout>
-    </ContentPage.Content>
+    </StackLayout>
 </ContentPage>
