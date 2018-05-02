@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Akavache;
@@ -38,6 +39,10 @@ namespace UsersGitHub.ViewModels
             MoreCommand = new Command(GoToUserRepositories);
             SetCurrentUserCommand = new Command(SetCurrentUser);
             GetUserListFromStorage();
+            if (currentUserService.User == null)
+            {
+                currentUserService.User = Users.FirstOrDefault();
+            }
         }
 
         private void SetCurrentUser(object selectedUser)

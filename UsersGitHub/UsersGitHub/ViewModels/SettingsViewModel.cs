@@ -18,6 +18,7 @@ namespace UsersGitHub.ViewModels
     public class SettingsViewModel : BaseViewModel
     {
         private readonly IPageDialogService dialogService;
+        private readonly ICameraService cameraService;
         private User currentUser;
         private string imageSource;
         private readonly ICurrentUserService currentUserService;
@@ -40,9 +41,11 @@ namespace UsersGitHub.ViewModels
 
         public SettingsViewModel(INavigationService navigationService,
             ICurrentUserService currentUserService,
-            IPageDialogService dialogService)
+            IPageDialogService dialogService,
+            ICameraService cameraService)
             : base(navigationService)
         {
+            this.cameraService = cameraService;
             this.dialogService = dialogService;
             this.currentUserService = currentUserService;
             SetCurrentUser();
@@ -53,33 +56,20 @@ namespace UsersGitHub.ViewModels
 
         private async void TakePhoto()
         {
-            await CrossMedia.Current.Initialize();
-
-            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            {
-                return;
-            }
-
-            var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-            {
-                SaveToAlbum = true,
-                Directory = "Sample",
-                Name = $"{DateTime.Now:dd.MM.yyyy_hh.mm.ss}.jpg"
-            });
-
+            var file = await cameraService.TakePhoto();
             if (file == null)
                 return;
-
             Source = file.Path;
         }
 
         private async void GetPhoto()
         {
-            if (CrossMedia.Current.IsPickPhotoSupported)
+            if (!CrossMedia.Current.IsPickPhotoSupported)
             {
-                MediaFile photo = await CrossMedia.Current.PickPhotoAsync();
-                Source = photo.Path;
+                return;
             }
+            var photo = await cameraService.GetPhoto();
+            Source = photo.Path;
         }
 
         private async void Save()
@@ -99,7 +89,7 @@ namespace UsersGitHub.ViewModels
                 FirstName = currentUserService.User.UserName.Split(' ')[1],
                 LastName = currentUserService.User.UserName.Split(' ')[0],
             };
-            Source = currentUserService.User.ImagePath;
+            Source = currentUserService.User.ImagePath ?? "";
         }
     }
 }

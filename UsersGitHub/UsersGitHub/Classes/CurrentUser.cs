@@ -6,7 +6,7 @@ using UsersGitHub.Model;
 
 namespace UsersGitHub.Classes
 {
-    public class CurrentUserervice : ICurrentUserService
+    public class CurrentUserService : ICurrentUserService
     {
         public User User { get; set; }
     }

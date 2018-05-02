@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Navigation;
 using Prism.Services;
@@ -13,19 +14,15 @@ namespace UsersGitHub.ViewModels
     public class UsersReposPageViewModel : BaseViewModel
     {
         private bool isPresented;
-        private readonly ICurrentUserService currentUserService;
-        private readonly IPageDialogService pageDialogService;
+        private readonly INavigationService navigationService;
 
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
 
-        public UsersReposPageViewModel(INavigationService navigationService,
-               ICurrentUserService currentUserService,
-               IPageDialogService pageDialogService)
+        public UsersReposPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            this.currentUserService = currentUserService;
-            this.pageDialogService = pageDialogService;
+            this.navigationService = navigationService;
             ShowDetailCommand = new Command(ShowDetail);
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
@@ -40,33 +37,21 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref isPresented, value);
         }
 
-        private void ShowDetail(object detailPage)
+        private async void ShowDetail(object detailPage)
         {
-            var detailPageName = ((UsersReposPageMenuItem) detailPage).Title;
-            if (!(Application.Current.MainPage is MasterDetailPage page))
-            {
-                return;
-            }
+            var detailPageName = ((UsersReposPageMenuItem)detailPage).Title;
+            var navigationString = $"{nameof(NavigationPage)}/";
             switch (detailPageName)
             {
-                case "Users":
-                    page.Detail = new NavigationPage(new Users());
+                case nameof(Users):
+                    navigationString += nameof(Users);
                     break;
-                case "Settings":
-                    SetSettingsPage(ref page);
+                case nameof(Settings):
+                    navigationString += nameof(Settings);
                     break;
             }
+            await navigationService.NavigateAsync(navigationString);
             IsPresented = false;
-        }
-
-        private void SetSettingsPage(ref MasterDetailPage page)
-        {
-            if (currentUserService.User != null)
-            {
-                page.Detail = new NavigationPage(new Settings());
-                return;
-            }
-            pageDialogService.DisplayAlertAsync("Error", @"Сurrent user not specified", "OK");
         }
     }
 }

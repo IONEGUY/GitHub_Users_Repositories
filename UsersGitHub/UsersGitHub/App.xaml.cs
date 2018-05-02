@@ -12,6 +12,7 @@ using UsersGitHub.Classes;
 using UsersGitHub.Controls;
 using UsersGitHub.Interfaces;
 using UsersGitHub.Model;
+using UsersGitHub.Services;
 using UsersGitHub.Views;
 using Xamarin.Forms;
 
@@ -40,7 +41,8 @@ namespace UsersGitHub
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ICurrentUserService, CurrentUserervice>();
+            containerRegistry.Register<ICameraService, CameraService>();
+            containerRegistry.RegisterSingleton<ICurrentUserService, CurrentUserService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<Repos>();
             containerRegistry.RegisterForNavigation<Settings>();
