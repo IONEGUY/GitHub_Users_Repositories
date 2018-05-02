@@ -13,7 +13,7 @@ namespace UsersGitHub.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private string userLogin;
+        private string userLogin = String.Empty;
         private readonly IPageDialogService dialogService;
 
         public ICommand GoToUserReposPageCommand { get; set; }
@@ -28,7 +28,6 @@ namespace UsersGitHub.ViewModels
             : base(navigationService)
         {
             this.dialogService = dialogService;
-            UserLogin = String.Empty;
             GoToUserReposPageCommand = new Command(GoToUserReposPage);
         }
 
