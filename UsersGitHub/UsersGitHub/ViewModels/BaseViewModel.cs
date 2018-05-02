@@ -1,5 +1,4 @@
-﻿using Acr.UserDialogs;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace UsersGitHub.ViewModels

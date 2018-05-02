@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Acr.UserDialogs;
-using Plugin.Connectivity;
 using Prism.Navigation;
 using Prism.Services;
 using UsersGitHub.Interfaces;
@@ -21,12 +19,6 @@ namespace UsersGitHub.ViewModels
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
         public ICommand ShowDetailCommand { get; }
 
-        public bool IsPresented
-        {
-            get => isPresented;
-            set => SetProperty(ref isPresented, value);
-        }
-
         public UsersReposPageViewModel(INavigationService navigationService,
                ICurrentUserService currentUserService,
                IPageDialogService pageDialogService)
@@ -34,7 +26,6 @@ namespace UsersGitHub.ViewModels
         {
             this.currentUserService = currentUserService;
             this.pageDialogService = pageDialogService;
-            CheckInternetConnection();
             ShowDetailCommand = new Command(ShowDetail);
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
@@ -43,13 +34,10 @@ namespace UsersGitHub.ViewModels
             });
         }
 
-        private void CheckInternetConnection()
+        public bool IsPresented
         {
-            var isConnected = CrossConnectivity.Current.IsConnected;
-            if (!isConnected)
-            {
-                UserDialogs.Instance.Loading("Waiting for internet connection!!!");
-            }
+            get => isPresented;
+            set => SetProperty(ref isPresented, value);
         }
 
         private void ShowDetail(object detailPage)
