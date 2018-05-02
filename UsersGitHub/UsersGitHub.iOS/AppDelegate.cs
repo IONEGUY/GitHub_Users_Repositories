@@ -26,16 +26,16 @@ namespace UsersGitHub.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App(new AndroidInitializer()));
+            LoadApplication(new App(new IOSInitializer()));
 
             return base.FinishedLaunching(app, options);
         }
 
-        private class AndroidInitializer : IPlatformInitializer
+        private class IOSInitializer : IPlatformInitializer
         {
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                containerRegistry.Register<IAppVersion, CurrentVersion>();
+                containerRegistry.Register<ICurrentVersionService, CurrentVersionService>();
             }
         }
     }

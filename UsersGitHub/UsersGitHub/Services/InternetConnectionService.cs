@@ -15,6 +15,11 @@ namespace UsersGitHub.Services
             CrossConnectivity.Current.ConnectivityChanged += CurrentOnConnectivityChanged;
         }
 
+        public void Destroy()
+        {
+            CrossConnectivity.Current.ConnectivityChanged -= CurrentOnConnectivityChanged;
+        }
+
         private void CurrentOnConnectivityChanged(object sender, ConnectivityChangedEventArgs connectivityChangedEventArgs)
         {
             if (connectivityChangedEventArgs.IsConnected)

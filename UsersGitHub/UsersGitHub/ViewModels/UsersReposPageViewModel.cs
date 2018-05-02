@@ -19,8 +19,6 @@ namespace UsersGitHub.ViewModels
         private string lastNameCheckLabel;
         private bool isPresented;
         private string version;
-        private readonly ICurrentUserService currentUserService;
-        private readonly IPageDialogService pageDialogService;
         private readonly INavigationService navigationService;
 
         public ObservableCollection<UsersReposPageMenuItem> MenuItems { get; set; }
@@ -50,39 +48,24 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref version, value);
         }
 
-        public UsersReposPageViewModel(INavigationService navigationService,
-               ICurrentUserService currentUserService,
-               IPageDialogService pageDialogService,
-               IAppVersion appVersion,
-               IInternetConnectionService internetConnectionService)
-            : base(navigationService)
+        public UsersReposPageViewModel(
+               INavigationService navigationService,
+               ICurrentVersionService appVersion)
         {
             this.navigationService = navigationService;
-            this.currentUserService = currentUserService;
-            this.pageDialogService = pageDialogService;
-            internetConnectionService.Init();
             CurrentVersion = "v. " + appVersion.GetVersion();
             ShowDetailCommand = new Command(ShowDetail);
             MenuItems = new ObservableCollection<UsersReposPageMenuItem>(new[]
             {
-                new UsersReposPageMenuItem { Id = 0, Title = "Users" },
-                new UsersReposPageMenuItem { Id = 1, Title = "Settings" }
+                new UsersReposPageMenuItem { Id = 0, Title = "Users", PageName = nameof(Users)},
+                new UsersReposPageMenuItem { Id = 1, Title = "Settings", PageName = nameof(Settings)}
             });
         }
 
         private async void ShowDetail(object detailPage)
         {
-            var detailPageName = ((UsersReposPageMenuItem) detailPage).Title;
-            var navigationString = $"{nameof(NavigationPage)}/";
-            switch (detailPageName)
-            {
-                case nameof(Users):
-                    navigationString += nameof(Users);
-                    break;
-                case nameof(Settings):
-                    navigationString += nameof(Settings);
-                    break;
-            }
+            var detailPageName = ((UsersReposPageMenuItem)detailPage).PageName;
+            var navigationString = $"{nameof(NavigationPage)}/{detailPageName}";
             await navigationService.NavigateAsync(navigationString);
             IsPresented = false;
         }

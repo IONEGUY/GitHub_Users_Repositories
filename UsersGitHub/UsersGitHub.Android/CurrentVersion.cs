@@ -1,10 +1,9 @@
 ﻿using Android.Content.PM;
 using UsersGitHub.Interfaces;
 
-[assembly: Xamarin.Forms.Dependency(typeof(UsersGitHub.Droid.CurrentVersion))]
 namespace UsersGitHub.Droid
 {
-    public class CurrentVersion : IAppVersion
+    public class CurrentVersionService : ICurrentVersionService
     {
         public string GetVersion()
         {

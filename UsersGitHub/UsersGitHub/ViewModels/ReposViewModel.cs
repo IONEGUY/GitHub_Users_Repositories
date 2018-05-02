@@ -11,7 +11,7 @@ using UsersGitHub.Model;
 
 namespace UsersGitHub.ViewModels
 {
-    public class ReposViewModel : BaseViewModel, INavigatedAware
+    public class ReposViewModel : DisplayLoadingViewModel, INavigatedAware
     {
         private ObservableCollection<Repository> repositories;
         private readonly IUserService userService;
@@ -23,10 +23,11 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref repositories, value);
         }
 
-        public ReposViewModel(INavigationService navigationService,
+        public ReposViewModel(
+               INavigationService navigationService,
                IUserService userService,
                IInternetConnectionService internetConnectionService)
-            : base(navigationService)
+            : base(internetConnectionService)
         {
             internetConnectionService.Init();
             this.navigationService = navigationService;

@@ -19,7 +19,6 @@ namespace UsersGitHub.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly INavigationService navigationService;
         private readonly ICurrentUserService currentUserService;
         private readonly IPageDialogService dialogService;
         private readonly ICameraService cameraService;
@@ -60,13 +59,11 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref imageSource, value);
         }
 
-        public SettingsViewModel(INavigationService navigationService,
+        public SettingsViewModel(
             ICurrentUserService currentUserService,
             IPageDialogService dialogService,
             ICameraService cameraService)
-            : base(navigationService)
         {
-            this.navigationService = navigationService;
             this.cameraService = cameraService;
             this.dialogService = dialogService;
             this.currentUserService = currentUserService;

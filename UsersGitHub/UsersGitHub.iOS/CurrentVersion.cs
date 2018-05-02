@@ -7,10 +7,9 @@ using Foundation;
 using UIKit;
 using UsersGitHub.Interfaces;
 
-[assembly: Xamarin.Forms.Dependency(typeof(UsersGitHub.iOS.CurrentVersion))]
 namespace UsersGitHub.iOS
 {
-    public class CurrentVersion : IAppVersion
+    public class CurrentVersionService : ICurrentVersionService
     {
         public string GetVersion()
         {

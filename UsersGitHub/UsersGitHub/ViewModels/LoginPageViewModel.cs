@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace UsersGitHub.ViewModels
 {
-    public class LoginPageViewModel : BaseViewModel
+    public class LoginPageViewModel : DisplayLoadingViewModel
     {
         private string userLogin;
         private readonly IUserService userService;
@@ -28,15 +28,14 @@ namespace UsersGitHub.ViewModels
             set => SetProperty(ref userLogin, value);
         }
 
-        public LoginPageViewModel(INavigationService navigationService, 
+        public LoginPageViewModel(
+            IInternetConnectionService internetConnectionService,
             IPageDialogService dialogService,
-            IUserService userService,
-            IInternetConnectionService internetConnectionService)
-            : base(navigationService)
+            IUserService userService) 
+            : base(internetConnectionService)
         {
             this.userService = userService;
             this.dialogService = dialogService;
-            internetConnectionService.Init();
             UserLogin = string.Empty;
             GoToUserReposPageCommand = new Command(GoToUserReposPage);
         }
@@ -49,6 +48,7 @@ namespace UsersGitHub.ViewModels
                 await dialogService.DisplayAlertAsync("Error", @"This name doesn't exist", "OK");
                 return;
             }
+
             var user = new User
             {
                 UserName = name,

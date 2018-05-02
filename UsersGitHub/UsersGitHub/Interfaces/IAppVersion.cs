@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UsersGitHub.Interfaces
 {
-    public interface IAppVersion
+    public interface ICurrentVersionService
     {
         string GetVersion();
     }

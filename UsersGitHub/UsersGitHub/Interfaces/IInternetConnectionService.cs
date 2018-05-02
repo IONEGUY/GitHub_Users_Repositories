@@ -7,5 +7,6 @@ namespace UsersGitHub.Interfaces
     public interface IInternetConnectionService
     {
         void Init();
+        void Destroy();
     }
 }

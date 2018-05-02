@@ -38,7 +38,7 @@ namespace UsersGitHub.Droid
         {
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                containerRegistry.Register<IAppVersion, CurrentVersion>();
+                containerRegistry.Register<ICurrentVersionService, CurrentVersionService>();
             }
         }
     }

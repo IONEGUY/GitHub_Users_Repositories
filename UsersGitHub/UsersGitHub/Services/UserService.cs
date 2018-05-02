@@ -18,12 +18,13 @@ namespace UsersGitHub.Services
     {
         private readonly HttpClient httpClient;
         private readonly IGitHubApi gitHubApi;
+        private const string uri = "https://api.github.com";
 
         public UserService()
         {
             httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://api.github.com")
+                BaseAddress = new Uri(uri)
             };
             gitHubApi = RestService.For<IGitHubApi>(httpClient);
         }
@@ -65,10 +66,6 @@ namespace UsersGitHub.Services
                 repositories.Add(repos);
             }
             return repositories;
-        }
-
-        private void InitMapper()
-        {
         }
     }
 }

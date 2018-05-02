@@ -7,10 +7,15 @@ using Prism.Navigation;
 
 namespace UsersGitHub.ViewModels
 {
-	public class BaseViewModel : BindableBase
-	{
+    public class BaseViewModel : BindableBase
+    {
+        public BaseViewModel()
+        {
+            
+        }
+
         public BaseViewModel(INavigationService navigationService)
         {
         }
-	}
+    }
 }

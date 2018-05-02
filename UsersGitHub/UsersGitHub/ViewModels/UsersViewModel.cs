@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace UsersGitHub.ViewModels
 {
-    public class UsersViewModel : BaseViewModel
+    public class UsersViewModel : DisplayLoadingViewModel
     {
         private ObservableCollection<User> users;
         private string userLogin = string.Empty;
@@ -30,11 +30,26 @@ namespace UsersGitHub.ViewModels
         public ICommand DeleteCommand { get; set; }
         public ICommand SetCurrentUserCommand { get; set; }
 
-        public UsersViewModel(INavigationService navigationService, 
+
+        public string UserLogin
+        {
+            get => userLogin;
+            set => SetProperty(ref userLogin, value);
+        }
+
+        public ObservableCollection<User> Users
+        {
+            get => users;
+            set => SetProperty(ref users, value);
+        }
+
+        public UsersViewModel(
+            IInternetConnectionService internetConnectionService,
+            INavigationService navigationService, 
             IPageDialogService dialogService,
             ICurrentUserService currentUserService,
             IUserService userService)
-            : base(navigationService)
+            : base(internetConnectionService)
         {
             this.navigationService = navigationService;
             this.userService = userService;
@@ -45,10 +60,7 @@ namespace UsersGitHub.ViewModels
             MoreCommand = new Command(GoToUserRepositories);
             SetCurrentUserCommand = new Command(SetCurrentUser);
             GetUserListFromStorage();
-            if (currentUserService.User == null)
-            {
-                currentUserService.User = Users.First();
-            }
+            SetDefaultCurrentUser();
         }
 
         private void SetCurrentUser(object selectedUser)
@@ -99,16 +111,12 @@ namespace UsersGitHub.ViewModels
             Users = new ObservableCollection<User>(deserializedUsers);
         }
 
-        public string UserLogin
+        private void SetDefaultCurrentUser()
         {
-            get => userLogin;
-            set => SetProperty(ref userLogin, value);
-        }
-
-        public ObservableCollection<User> Users
-        {
-            get => users;
-            set => SetProperty(ref users, value);
+            if (currentUserService.User == null)
+            {
+                currentUserService.User = Users.First();
+            }
         }
     }
 }
